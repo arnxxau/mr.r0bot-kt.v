@@ -47,10 +47,16 @@ class BasicALU {
         var save = false
         for ((idx, i) in inputArray.withIndex()) {
             when {
-                i.startsWith("R") -> aluCommand.add(DataSlot(i.removePrefix("R").toInt(), 3, false, selectRegister(idx)))
+                i.startsWith("R") -> aluCommand.add(DataSlot(i.removePrefix("R").toInt(),
+                                        3, false, selectRegister(idx)))
+
                 i.startsWith("0x")
-                        or i.startsWith("0X") -> aluCommand.add(DataSlot(i.removeRange(0, 2).toInt(radix = 16), 16, false, Type.N))
-                i.toIntOrNull() != null -> aluCommand.add(DataSlot(i.toInt(radix = 16), 16, false, Type.N))
+                        or i.startsWith("0X") -> aluCommand.add(DataSlot(i.removeRange(0, 2).toInt(radix = 16),
+                                                    16, false, Type.N))
+
+                i.toIntOrNull() != null -> aluCommand.add(DataSlot(i.toInt(radix = 16),
+                                        16, false, Type.N))
+
                 else -> {
                     val p = getFunctionID(i)
                     save = p.third

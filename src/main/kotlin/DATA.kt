@@ -1,7 +1,7 @@
 object DATA {
     val ALU_TABLE: Array<Array<String>> = arrayOf(
-        arrayOf("---", "X", "CMPLT", "AND"),
-        arrayOf("---", "Y", "COMPLE", "OR"),
+        arrayOf("---", "MOVE", "CMPLT", "AND"),
+        arrayOf("---", "MOVEI", "COMPLE", "OR"),
         arrayOf("---", "MOVHI", "---", "XOR"),
         arrayOf("---", "---", "CMPEQ", "NOT"),
         arrayOf("---", "---", "CMPLTU", "ADD"),
