@@ -1,6 +1,9 @@
-import de.vandermeer.asciitable.AsciiTable
+open class BasicALU: Utils() {
+    open var referenceTable = DATA.ALU_TABLE
+    override val dataArray: MutableList<String> =
+        mutableListOf("@A", "@B", "Rb/N", "OP", "F", "In/Alu", "@D", "WrD", "N")
 
-class BasicALU {
+
     data class DataSlot (
         var value: Int,
         var nBit: Int,
@@ -9,10 +12,10 @@ class BasicALU {
             )
 
     enum class Type {
-        A, B, RbN, OP, F, InAlu, D, WrD, N, UNKNOWN, IN, OUT
+        A, B, RbN, OP, F, InAlu, D, WrD, N, UNKNOWN
     }
 
-    private fun selectRegister(idx: Int): Type {
+    fun selectRegister(idx: Int): Type {
         return when (idx) {
             1 -> Type.D
             2 -> Type.A
@@ -21,24 +24,20 @@ class BasicALU {
         }
     }
 
-    private fun getFunctionID(s: String): Triple<Pair<Int, Int>, Type, Boolean>{
-        var function = -1
-        var operation = -1
-        var type: Type = Type.UNKNOWN
-        var is_n = false
-        for (i in 0 until DATA.ALU_TABLE.size) {
-            for (j in 0 until DATA.ALU_TABLE[0].size) {
-                if (s.startsWith(DATA.ALU_TABLE[i][j])){
-                    function = i; operation = 3-j; type = Type.OP
+    open fun getFunctionID(s: String): Triple<Pair<Int, Int>, Type, Boolean>{
+        var function = -1; var operation = -1; var i = 0
+        var type = Type.UNKNOWN
+        var save = false; var match = false
+        while (i < referenceTable.size && !match) {
+            for (j in referenceTable[i].indices) {
+                if (s.startsWith(referenceTable[i][j])){
+                    function = i; operation = j; type = Type.OP; match = true
                 }
-                if (s.endsWith("I")) is_n = true
+                if (s.endsWith("I")) save = true
             }
+            ++i
         }
-
-        if (s == "IN") type = Type.IN
-        else if (s == "OUT") type = Type.OUT
-
-        return Triple(Pair(function, operation), type, is_n)
+        return Triple(Pair(function, operation), type, save)
     }
 
     fun parseInput(s: String): Pair<MutableList<DataSlot>, Boolean> {
@@ -84,7 +83,7 @@ class BasicALU {
         }
 
         //A logic
-        if (aluCommand.first[0].type == Type.OUT) {
+        if (aluCommand.first[0].value == 9) {
             aluList[0].value = aluList[6].value
             aluList[0].discard = false
             aluList[6].discard = true
@@ -101,35 +100,11 @@ class BasicALU {
         aluList[7].value = if (aluList[6].discard) 0
                         else 1
         //In/Alu logic
-        if (aluList[6].value != 0 && aluCommand.first[0].type != Type.OUT) {
-            aluList[5].value = if (aluCommand.first[0].type == Type.IN) 1
+        if (aluList[6].value != 0 && aluCommand.first[0].value != 9) {
+            aluList[5].value = if (aluCommand.first[0].value == 8) 1
             else 0
             aluList[5].discard = false
         }
         return aluList
-    }
-
-    fun toBinary(x: Int, len: Int): String {
-        return String.format(
-            "%" + len + "s",
-            Integer.toBinaryString(x)
-        ).replace(" ".toRegex(), "0")
-    }
-
-    fun printTable(aluCommand: Array<DataSlot>) {
-        val table = AsciiTable()
-        val stringArray = mutableListOf<String>()
-        table.addRule()
-        table.addRow("@A", "@B", "Rb/N", "OP", "F", "In/Alu", "@D", "WrD", "N")
-        for (c in aluCommand) {
-            if (c.discard) {
-                var s = ""
-                for (i in 0 until c.nBit) s += "X"
-                stringArray.add(s)
-            }else stringArray.add(toBinary(c.value, c.nBit))
-        }
-        table.addRule()
-        table.addRow(stringArray)
-        println(table.render())
     }
 }
