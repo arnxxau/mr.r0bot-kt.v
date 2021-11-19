@@ -82,6 +82,10 @@ open class BasicALU: Utils() {
             }
         }
 
+        //OP & F logic
+        aluList[3].discard = aluCommand.first[0].value == 9 || aluCommand.first[0].value == 8
+        aluList[4].discard = aluCommand.first[0].value == 9 || aluCommand.first[0].value == 8
+
         //A logic
         if (aluCommand.first[0].value == 9) {
             aluList[0].value = aluList[6].value

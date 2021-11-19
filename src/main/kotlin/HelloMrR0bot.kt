@@ -1,0 +1,2 @@
+class HelloMrR0bot {
+}
