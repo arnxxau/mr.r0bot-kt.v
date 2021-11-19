@@ -1,5 +1,19 @@
 fun main() {
-    println("Welcome to Mr R0bot v0.0.1 (kt.v)")
+    println("Welcome to Mr R0bot v0.1.0 (kt.v)")
+    println("       _______\n" +
+            "     _/       \\_\n" +
+            "    / |       | \\\n" +
+            "   /  |__   __|  \\\n" +
+            "  |__/((o| |o))\\__|\n" +
+            "  |      | |      |\n" +
+            "  |\\     |_|     /|\n" +
+            "  | \\           / |\n" +
+            "   \\| /  ___  \\ |/\n" +
+            "    \\ | / _ \\ | /\n" +
+            "     \\_________/\n" +
+            "      _|_____|_\n" +
+            " ____|_________|____\n" +
+            "/                   \\  ")
     println("1 -> To use ALU MODULE")
     println("2 -> To use SISA-I MODULE")
 

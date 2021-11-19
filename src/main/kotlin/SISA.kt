@@ -20,7 +20,6 @@ class SISA : BasicALU() {
                 instructionChain.add((binaryChain.selectBit(5, 0).toString(radix = 16).uppercase()))
             }
             in 8..10 -> {
-                println(function)
                 instructionChain.add(DATA.SISA_TABLE[binaryChain.selectBit(8, 8)][function])
                 instructionChain.add(("R${binaryChain.selectBit(11, 9)}"))
                 instructionChain.add(binaryChain.selectBit(7, 0).toString(radix = 16).uppercase())
