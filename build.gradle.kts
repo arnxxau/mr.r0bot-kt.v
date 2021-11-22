@@ -17,6 +17,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("de.vandermeer:asciitable:0.3.2")
+    implementation("com.github.ajalt.clikt:clikt:3.2.0")
 }
 
 tasks.test {

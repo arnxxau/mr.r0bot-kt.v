@@ -44,3 +44,30 @@ fun main() {
 
     //`SISA-I`()
 }
+
+fun main2() {
+    //for (x in SISA().tableConstructor(
+    //    SISA().parseInput(readLine()?:""))) println(x)
+
+    //for (slot in BasicALU().sisaIntelParse(readLine() ?: "")!!)
+    //    println(slot)
+    //print(BasicALU().sisaIntelParse(readLine() ?: ""))
+    val s = readLine()!!
+    for (slot in BasicALU().sisaIntelParse(s)!!)
+        println(slot)
+
+    //println(Utils().toBinary(-2, 5))
+
+    println(
+        BasicALU().encryptAssembly(BasicALU().sisaIntelParse(s)!!).toInt(radix = 2).toString(16)
+    )
+
+    println(
+        BasicALU().encryptAssembly(BasicALU().sisaIntelParse(s)!!)
+    )
+}
+
+fun main7(){
+    Utils()
+    println("10011".toInt(radix = 2))
+}
