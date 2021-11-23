@@ -29,7 +29,7 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClass.set("DebugMrR0botKt")
+    mainClass.set("HelloMrR0botKt")
 }
 
 

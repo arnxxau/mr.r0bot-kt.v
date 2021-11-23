@@ -1,12 +1,11 @@
 import de.vandermeer.asciitable.AsciiTable
 import kotlin.math.*
 open class Utils {
-    open val dataArray = mutableListOf<String>()
 
     // Selects a range of bits and returns its unsigned decimal representation
-    fun String.selectBit(startIndex: Int, endIndex: Int): Int {
+    fun String.selectBit(startIndex: Int, endIndex: Int): Int? {
         return this.substring(this.length - startIndex - 1,
-            this.length - endIndex).toInt(radix = 2)
+            this.length - endIndex).toIntOrNull(radix = 2)
     }
 
     // Converts a decimal Int into a binary string chain represented in Two's Complement
@@ -55,7 +54,7 @@ open class Utils {
         ).replace(" ".toRegex(), "0")
     }
 
-    open fun printTable(aluCommand: Array<BasicALU.DataSlot>) {
+    open fun printTable(dataArray: MutableList<String>, aluCommand: Array<DataSlot>) {
         val table = AsciiTable()
         val stringArray = mutableListOf<String>()
         table.addRule()
@@ -63,15 +62,76 @@ open class Utils {
         for (c in aluCommand) {
             if (c.discard) {
                 var s = ""
-                for (i in 0 until c.nBit) s += "X"
+                val div = if (c.toHex) 4
+                            else 1
+                for (i in 0 until c.nBit/div) s += "X"
                 stringArray.add(s)
             }
-            else
-                stringArray.add(c.value.toBinTwosComplement(c.nBit))
+            else if (c.toHex) stringArray.add(c.value.toHexTwosComplement(c.nBit/4))
+            else stringArray.add(c.value.toBinTwosComplement(c.nBit))
         }
         table.addRule()
         table.addRow(stringArray)
+        table.addRule()
+        //table.context.width = 130
         println(table.render())
+    }
+
+    fun verifyParse(idx: Int, input: MutableList<DataSlot>): Boolean {
+        for (data in input) {
+            if (data.type == selectRegister(idx)) return true
+        }
+        return false
+    }
+
+    fun encryptAssembly(construct: Array<DataSlot>): String {
+        var output = ""
+        for (slot in construct) {
+            output += slot.value.toBinTwosComplement(slot.nBit)
+        }
+        return output
+    }
+
+    fun getID(s: String, toSearch: Array<Array<String>>, exact: Boolean): Pair<Int, Int>? {
+        for (i in toSearch.indices){
+            for (j in toSearch[i].indices) {
+                if (s.startsWith(toSearch[i][j]) && !exact) return Pair(i, j)
+                if (s == toSearch[i][j]) return Pair(i, j)
+            }
+        }
+        return null
+    }
+
+    fun generateBinaryChain(slots: Array<DataSlot>): String {
+        var binChain = ""
+        val discard = 0
+        for (slot in slots) {
+            binChain += if (slot.discard) discard.toBinary(slot.nBit)
+            else if (slot.type == Type.N) slot.value.toBinTwosComplement(slot.nBit)
+            else slot.value.toBinary(slot.nBit)
+        }
+        return binChain
+    }
+
+    data class DataSlot (
+        var value: Int,
+        var nBit: Int,
+        var discard: Boolean = false,
+        var type: Type,
+        var toHex: Boolean = false
+    )
+
+    enum class Type {
+        A, B, RbN, OP, F, InAlu,  ila, D, WrD, WrOut, RdIn, WrMem, Byte, TknBr, N, UNKNOWN, C, E, ADDRIO
+    }
+
+    fun selectRegister(idx: Int): Type {
+        return when (idx) {
+            1 -> Type.D
+            2 -> Type.A
+            3 -> Type.B
+            else -> Type.UNKNOWN
+        }
     }
 }
 
