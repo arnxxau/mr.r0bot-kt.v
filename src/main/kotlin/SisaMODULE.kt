@@ -45,14 +45,22 @@ class SisaMODULE : AluMODULE() {
                 e = slot.value
         }
         val finaleConstruct =  DATA.SISA_CONSTRUCTOR
-
         if (c == 10) {
             dataSlots[3].discard = true
             finaleConstruct[14].value = dataSlots[3].value
             finaleConstruct[14].discard = false
         }
+        // TknBr logic
         val romContent = DATA.SISA_LOGIC_MAP[Pair(e, c)]!!
-        dataSlots.add(DataSlot(romContent.selectBit(19, 19)!! + romContent.selectBit(18, 18)!!, 1, false, Type.TknBr))
+        var tknbr = 0; val bz = romContent.selectBit(18, 18)!!; val bnz = romContent.selectBit(19, 19)!!
+        if (c == 8) {
+            println("Introduce the value of R${dataSlots[1].value}")
+            val value = intelParse(readLine()!!)[0].value
+            println(value)
+            tknbr = if (value > 0 && bnz == 1 || value == 0 && bz == 1) 1
+                    else 0
+        }
+        dataSlots.add(DataSlot(tknbr, 1, false, Type.TknBr))
         dataSlots.add(DataSlot(romContent.selectBit(17, 17)!!, 1, false, Type.WrMem))
         dataSlots.add(DataSlot(romContent.selectBit(16, 16)!!, 1, false, Type.RdIn))
         dataSlots.add(DataSlot(romContent.selectBit(15,15)!!, 1, false, Type.WrOut))
