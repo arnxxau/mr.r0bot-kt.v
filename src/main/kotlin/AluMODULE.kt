@@ -6,10 +6,11 @@ open class AluMODULE: Utils() {
             it.removePrefix("0x")
                 .removePrefix("0X")
                 .removeSuffix(",")
+                .removeSuffix("I")
         }
 
         val output = mutableListOf<DataSlot>()
-        val id = getID(data[0], DATA.ALU_TABLE, false)
+        val id = getID(data[0], DATA.ALU_TABLE, true)
         if (id != null) {
             output.add(DataSlot(id.first, 3, false, Type.F))
             output.add(DataSlot(id.second, 2, false, Type.OP))
