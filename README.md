@@ -1,9 +1,25 @@
 # mr.r0bot-kt.v ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/arnxxau/mr.r0bot-kt.v?include_prereleases)
 Mr.r0bot-kt.v is tool that handles computer logic calculations and provides a better experience through your stay at "IC".
 
+## Warning
+Use mr.r0bot at your own risk, obviously im not responsible for any wrong output or miscalculation.
+
+## Execution
+### Linux
+The native binary is provided with each release, to execute it make the file an executable with the following command:  
+`chmod +x mr.r0bot-kt.v(version number)-linux.x`  
+Then just execute the file with:  
+`./mr.r0bot-kt.v(version number)-linux.x`
+### MacOS
+Im not  providing the native binary for this system, therefore you will have to execute the .jar attached with each release:  
+`java -jar mr.r0bot-kt.v(version number).jar`
+### Windows
+Same as MacOS, execute with the following command:  
+`java -jar mr.r0bot-kt.v(version number).jar`
 ## Modules
 At the moment, only two modules are available, and none of them are 100% completed.
-### ALU MODULE ; Handles simple ALU (Arithmetic Logic Uni) calculations.
+
+### ALU MODULE ; Handles simple ALU (Arithmetic Logic Unit) calculations.
  Currently, only one functionality is supported:  
  - Mnemonic to control phrase
 
