@@ -39,7 +39,6 @@ class SisaMODULE : AluMODULE() {
 
     fun sisaTable(constructor: Array<DataSlot>): Array<DataSlot> {
         val dataSlots = constructor.toMutableList()
-        println(dataSlots)
         var c = 0; var e = 0
         for (slot in constructor) {
             if (slot.type == Type.C)
@@ -75,7 +74,6 @@ class SisaMODULE : AluMODULE() {
             dataSlots[3].value *= 2
             println("Introduce the value of R${dataSlots[1].value}")
             val value = intelParse(readLine()!!)[0].value
-            println(value)
             tknbr = if (value > 0 && bnz == 1 || value == 0 && bz == 1) 1
                     else 0
         }
