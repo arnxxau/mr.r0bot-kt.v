@@ -20,8 +20,10 @@ class SisaMODULE : AluMODULE() {
         val code = getID(data[0], DATA.SISA_TABLE, true)
         if (code != null && code.second == 8)
             output[0].type = Type.A
-        val constructor = getSisaConstructor(code!!)
-        for (slot in constructor!!){
+        val constructor = getSisaConstructor(code!!)!!.map {
+            it.copy()
+        }.toTypedArray()
+        for (slot in constructor){
             for (out in output) {
                 if (slot.type == Type.E) {
                     slot.value = code.first
@@ -37,6 +39,7 @@ class SisaMODULE : AluMODULE() {
 
     fun sisaTable(constructor: Array<DataSlot>): Array<DataSlot> {
         val dataSlots = constructor.toMutableList()
+        println(dataSlots)
         var c = 0; var e = 0
         for (slot in constructor) {
             if (slot.type == Type.C)
@@ -44,7 +47,14 @@ class SisaMODULE : AluMODULE() {
             else if (slot.type == Type.E)
                 e = slot.value
         }
-        val finaleConstruct =  DATA.SISA_CONSTRUCTOR
+        val finaleConstruct =  DATA.SISA_CONSTRUCTOR.map {
+            it.copy()
+        }.toTypedArray()
+
+        if (Pair(e, c) == Pair(1, 9)) {
+            finaleConstruct[0].value = dataSlots[1].value
+            finaleConstruct[0].discard = false
+        }
         if (c == 10) {
             dataSlots[3].discard = true
             finaleConstruct[14].value = dataSlots[3].value
@@ -52,8 +62,17 @@ class SisaMODULE : AluMODULE() {
         }
         // TknBr logic
         val romContent = DATA.SISA_LOGIC_MAP[Pair(e, c)]!!
+
+
+
+        val f = romContent.selectBit(4,2)
+        if (dataSlots.last().type != Type.F)
+            dataSlots.add(DataSlot(f?: 0, 3, f == null, Type.F))
+
+
         var tknbr = 0; val bz = romContent.selectBit(18, 18)!!; val bnz = romContent.selectBit(19, 19)!!
         if (c == 8) {
+            dataSlots[3].value *= 2
             println("Introduce the value of R${dataSlots[1].value}")
             val value = intelParse(readLine()!!)[0].value
             println(value)
@@ -73,8 +92,6 @@ class SisaMODULE : AluMODULE() {
         dataSlots.add(DataSlot(ila?: 0, 2, ila == null, Type.ila))
         val op = romContent.selectBit(9,8)
         dataSlots.add(DataSlot(op?: 0, 2, op == null, Type.OP))
-        val f = romContent.selectBit(4,2)
-        dataSlots.add(DataSlot(f?: 0, 3, f == null, Type.F))
 
         for (data in dataSlots) {
             for (d in finaleConstruct.indices) {
@@ -131,6 +148,7 @@ class SisaMODULE : AluMODULE() {
         return when (chain[0]){
             "LD", "LDB" -> chain[0] + " " + chain[1] + ", " + chain[3] + '(' + chain[2] + ')'
             "ST", "STB" -> chain[0] + " " + chain[3] + '(' + chain[2] + ')'  + ", " + chain[1]
+            "OUT" -> chain[0]  + ' ' + chain[2] + ", " + chain[1]
             else -> chain.removeFirst() + " " + chain.joinToString(", ")
         }
     }

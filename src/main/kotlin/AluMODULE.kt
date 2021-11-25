@@ -2,13 +2,14 @@ open class AluMODULE: Utils() {
     fun intelParse(s: String): MutableList<DataSlot> {
         var isHex = false
         val data = s.split(" ").map {
-            if (it.contains("0x") || it.contains("0X")) isHex = true
+            if (it.contains("0x")
+                || it.contains("0X")) isHex = true
             it.removePrefix("0x")
                 .removePrefix("0X")
                 .removeSuffix(",")
-                .removeSuffix("I")
         }
 
+        if (data[0] != "MOVEI") data[0].removeSuffix("I")
         val output = mutableListOf<DataSlot>()
         val id = getID(data[0], DATA.ALU_TABLE, true)
         if (id != null) {
@@ -40,40 +41,42 @@ open class AluMODULE: Utils() {
         return output
     }
 
-    fun aluTable(aluCommand: MutableList<DataSlot>): Array<DataSlot> {
-        for (command in aluCommand)
-            if (command.type == Type.UNKNOWN) println("Syntax error")
-        val aluList = DATA.ALU_CONSTRUCTOR
-        for (command in aluCommand) {
-            for (c in aluList.indices) {
-                if (aluList[c].type == command.type) aluList[c] = command
+    fun aluTable(parsedSlots: MutableList<DataSlot>): Array<DataSlot> {
+        for (slot in parsedSlots)
+            if (slot.type == Type.UNKNOWN) println("Syntax error")
+        val dataSlots = DATA.ALU_CONSTRUCTOR.map {
+            it.copy()
+        }.toTypedArray()
+        for (slot in parsedSlots) {
+            for (c in dataSlots.indices) {
+                if (dataSlots[c].type == slot.type) dataSlots[c] = slot
             }
         }
         //OP & F logic
-        aluList[3].discard = aluCommand[0].value == 9 || aluCommand[0].value == 8
-        aluList[4].discard = aluCommand[0].value == 9 || aluCommand[0].value == 8
+        dataSlots[3].discard = parsedSlots[0].value == 9 || parsedSlots[0].value == 8
+        dataSlots[4].discard = parsedSlots[0].value == 9 || parsedSlots[0].value == 8
         //A logic
-        if (aluCommand[0].value == 9) {
-            aluList[0].value = aluList[6].value
-            aluList[0].discard = false
-            aluList[6].discard = true
+        if (parsedSlots[0].value == 9) {
+            dataSlots[0].value = dataSlots[6].value
+            dataSlots[0].discard = false
+            dataSlots[6].discard = true
         }
         //N logic
-        if (!aluList[8].discard or !aluList[1].discard){
-            aluList[2].value = if (aluList[8].discard) 1
+        if (!dataSlots[8].discard or !dataSlots[1].discard){
+            dataSlots[2].value = if (dataSlots[8].discard) 1
                             else 0
-            aluList[2].discard = false
+            dataSlots[2].discard = false
         }
         //WrD logic
-        aluList[7].value = if (aluList[6].discard) 0
+        dataSlots[7].value = if (dataSlots[6].discard) 0
                         else 1
         //In/Alu logic
-        if (aluList[6].value != 0 && aluCommand[0].value != 9) {
-            aluList[5].value = if (aluCommand[0].value == 8) 1
+        if (dataSlots[6].value != 0 && parsedSlots[0].value != 9) {
+            dataSlots[5].value = if (parsedSlots[0].value == 8) 1
             else 0
-            aluList[5].discard = false
+            dataSlots[5].discard = false
         }
-        return aluList
+        return dataSlots
     }
 
     fun printAluPhrase(s: String) {
