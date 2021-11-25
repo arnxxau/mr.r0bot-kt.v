@@ -27,9 +27,11 @@ class SisaMODULE : AluMODULE() {
             for (out in output) {
                 if (slot.type == Type.E) {
                     slot.value = code.first
+                    slot.discard = false
                 }
                 if (slot.type == out.type) {
                     slot.value = out.value
+                    slot.discard = false
                 }
             }
         }
@@ -66,7 +68,7 @@ class SisaMODULE : AluMODULE() {
 
         val f = romContent.selectBit(4,2)
         if (dataSlots.last().type != Type.F)
-            dataSlots.add(DataSlot(f?: 0, 3, f == null, Type.F))
+            dataSlots.add(DataSlot(f?: 0, 3, Type.F, f == null))
 
 
         var tknbr = 0; val bz = romContent.selectBit(18, 18)!!; val bnz = romContent.selectBit(19, 19)!!
@@ -77,19 +79,19 @@ class SisaMODULE : AluMODULE() {
             tknbr = if (value > 0 && bnz == 1 || value == 0 && bz == 1) 1
                     else 0
         }
-        dataSlots.add(DataSlot(tknbr, 1, false, Type.TknBr))
-        dataSlots.add(DataSlot(romContent.selectBit(17, 17)!!, 1, false, Type.WrMem))
-        dataSlots.add(DataSlot(romContent.selectBit(16, 16)!!, 1, false, Type.RdIn))
-        dataSlots.add(DataSlot(romContent.selectBit(15,15)!!, 1, false, Type.WrOut))
-        dataSlots.add(DataSlot(romContent.selectBit(14,14)!!, 1, false, Type.WrD))
+        dataSlots.add(DataSlot(tknbr, 1, Type.TknBr, false))
+        dataSlots.add(DataSlot(romContent.selectBit(17, 17)!!, 1,  Type.WrMem, false))
+        dataSlots.add(DataSlot(romContent.selectBit(16, 16)!!, 1, Type.RdIn, false))
+        dataSlots.add(DataSlot(romContent.selectBit(15,15)!!, 1, Type.WrOut, false))
+        dataSlots.add(DataSlot(romContent.selectBit(14,14)!!, 1, Type.WrD, false))
         val byte = romContent.selectBit(13,13)
-        dataSlots.add(DataSlot(byte?: 0, 1, byte == null, Type.Byte))
+        dataSlots.add(DataSlot(byte?: 0, 1, Type.Byte, byte == null))
         val n = romContent.selectBit(12,12)
-        dataSlots.add(DataSlot(n?: 0, 1, n == null, Type.RbN))
+        dataSlots.add(DataSlot(n?: 0, 1, Type.RbN, n == null))
         val ila = romContent.selectBit(11,10)
-        dataSlots.add(DataSlot(ila?: 0, 2, ila == null, Type.ila))
+        dataSlots.add(DataSlot(ila?: 0, 2, Type.ila, ila == null))
         val op = romContent.selectBit(9,8)
-        dataSlots.add(DataSlot(op?: 0, 2, op == null, Type.OP))
+        dataSlots.add(DataSlot(op?: 0, 2, Type.OP, op == null))
 
         for (data in dataSlots) {
             for (d in finaleConstruct.indices) {

@@ -41,70 +41,70 @@ object DATA {
     )
 
     val ALU_CONSTRUCTOR: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 3, true, Utils.Type.A),
-        Utils.DataSlot(0, 3, true, Utils.Type.B),
-        Utils.DataSlot(0, 1, true, Utils.Type.RbN),
-        Utils.DataSlot(0, 3, true, Utils.Type.OP),
-        Utils.DataSlot(0, 2, true, Utils.Type.F),
-        Utils.DataSlot(0, 1, true, Utils.Type.InAlu),
-        Utils.DataSlot(0, 3, true, Utils.Type.D),
-        Utils.DataSlot(0, 1, false, Utils.Type.WrD),
-        Utils.DataSlot(0, 16, true, Utils.Type.N, toHex = true)
+        Utils.DataSlot(0, 3, Utils.Type.A),
+        Utils.DataSlot(0, 3, Utils.Type.B),
+        Utils.DataSlot(0, 1, Utils.Type.RbN),
+        Utils.DataSlot(0, 3, Utils.Type.OP),
+        Utils.DataSlot(0, 2, Utils.Type.F),
+        Utils.DataSlot(0, 1, Utils.Type.InAlu),
+        Utils.DataSlot(0, 3, Utils.Type.D),
+        Utils.DataSlot(0, 1, Utils.Type.WrD, false),
+        Utils.DataSlot(0, 16, Utils.Type.N, toHex = true)
     )
 
     val SISA_CONSTRUCTOR: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 3, true, Utils.Type.A), // REG@A value
-        Utils.DataSlot(0, 3, true, Utils.Type.B), // REG@B value
-        Utils.DataSlot(0, 1, true, Utils.Type.RbN), // 1 if 'N' is used
-        Utils.DataSlot(0, 2, true, Utils.Type.OP), // ALU operation value
-        Utils.DataSlot(0, 3, true, Utils.Type.F), // ALU function value
-        Utils.DataSlot(0, 2, true, Utils.Type.ila), // 0 to save from REGFILE (ALU), 1 to read RAM, 2 to read from ports
-        Utils.DataSlot(0, 3, true, Utils.Type.D), // REG@D value
-        Utils.DataSlot(0, 1, true, Utils.Type.WrD), // 1 to load permission
-        Utils.DataSlot(0, 1, true, Utils.Type.WrOut), // 1 if an OUT instruction is executed
-        Utils.DataSlot(0, 1, true, Utils.Type.RdIn), // 1 if an IN instruction is executed
-        Utils.DataSlot(0, 1, true, Utils.Type.WrMem), // When ST or STB is executed (store byte)
-        Utils.DataSlot(0, 1, true, Utils.Type.Byte), // 1 when a 'B' instruction is executed
-        Utils.DataSlot(0, 1, true, Utils.Type.TknBr), // 1 when BZ or BZN is executed
-        Utils.DataSlot(0, 16, true, Utils.Type.N, toHex = true), // N value
-        Utils.DataSlot(0, 8, true, Utils.Type.ADDRIO, toHex = true) // Port value
+        Utils.DataSlot(0, 3, Utils.Type.A), // REG@A value
+        Utils.DataSlot(0, 3, Utils.Type.B), // REG@B value
+        Utils.DataSlot(0, 1, Utils.Type.RbN), // 1 if 'N' is used
+        Utils.DataSlot(0, 2, Utils.Type.OP), // ALU operation value
+        Utils.DataSlot(0, 3, Utils.Type.F), // ALU function value
+        Utils.DataSlot(0, 2, Utils.Type.ila), // 0 to save from REGFILE (ALU), 1 to read RAM, 2 to read from ports
+        Utils.DataSlot(0, 3, Utils.Type.D), // REG@D value
+        Utils.DataSlot(0, 1, Utils.Type.WrD), // 1 to load permission
+        Utils.DataSlot(0, 1, Utils.Type.WrOut), // 1 if an OUT instruction is executed
+        Utils.DataSlot(0, 1, Utils.Type.RdIn), // 1 if an IN instruction is executed
+        Utils.DataSlot(0, 1, Utils.Type.WrMem), // When ST or STB is executed (store byte)
+        Utils.DataSlot(0, 1, Utils.Type.Byte), // 1 when a 'B' instruction is executed
+        Utils.DataSlot(0, 1, Utils.Type.TknBr), // 1 when BZ or BZN is executed
+        Utils.DataSlot(0, 16, Utils.Type.N, toHex = true), // N value
+        Utils.DataSlot(0, 8, Utils.Type.ADDRIO, toHex = true) // Port value
     )
 
     // From 0 to 1
     val SISA_ASSEMBLY_CONSTRUCTOR_TYPE0: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 4, false, Utils.Type.C),
-        Utils.DataSlot(0, 3, false, Utils.Type.A),
-        Utils.DataSlot(0, 3, false, Utils.Type.B),
-        Utils.DataSlot(0, 3, false, Utils.Type.D),
-        Utils.DataSlot(0, 3, false, Utils.Type.F),
+        Utils.DataSlot(0, 4, Utils.Type.C),
+        Utils.DataSlot(0, 3, Utils.Type.A),
+        Utils.DataSlot(0, 3, Utils.Type.B),
+        Utils.DataSlot(0, 3, Utils.Type.D),
+        Utils.DataSlot(0, 3, Utils.Type.F),
     )
 
     // From 2 to 7
     val SISA_ASSEMBLY_CONSTRUCTOR_TYPE1_B: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 4, false, Utils.Type.C),
-        Utils.DataSlot(0, 3, false, Utils.Type.A),
-        Utils.DataSlot(0, 3, false, Utils.Type.B),
-        Utils.DataSlot(0, 6, false, Utils.Type.N),
+        Utils.DataSlot(0, 4, Utils.Type.C),
+        Utils.DataSlot(0, 3, Utils.Type.A),
+        Utils.DataSlot(0, 3, Utils.Type.B),
+        Utils.DataSlot(0, 6, Utils.Type.N),
     )
     val SISA_ASSEMBLY_CONSTRUCTOR_TYPE1_D: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 4, false, Utils.Type.C),
-        Utils.DataSlot(0, 3, false, Utils.Type.A),
-        Utils.DataSlot(0, 3, false, Utils.Type.D),
-        Utils.DataSlot(0, 6, false, Utils.Type.N),
+        Utils.DataSlot(0, 4, Utils.Type.C),
+        Utils.DataSlot(0, 3, Utils.Type.A),
+        Utils.DataSlot(0, 3, Utils.Type.D),
+        Utils.DataSlot(0, 6, Utils.Type.N),
     )
 
 
     // From 8 to 10
     val SISA_ASSEMBLY_CONSTRUCTOR_TYPE2_A: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 4, false, Utils.Type.C),
-        Utils.DataSlot(0, 3, false, Utils.Type.A),
-        Utils.DataSlot(0, 1, false, Utils.Type.E),
-        Utils.DataSlot(0, 8, false, Utils.Type.N),
+        Utils.DataSlot(0, 4, Utils.Type.C),
+        Utils.DataSlot(0, 3, Utils.Type.A),
+        Utils.DataSlot(0, 1, Utils.Type.E),
+        Utils.DataSlot(0, 8, Utils.Type.N),
     )
     val SISA_ASSEMBLY_CONSTRUCTOR_TYPE2_D: Array<Utils.DataSlot> = arrayOf(
-        Utils.DataSlot(0, 4, false, Utils.Type.C),
-        Utils.DataSlot(0, 3, false, Utils.Type.D),
-        Utils.DataSlot(0, 1, false, Utils.Type.E),
-        Utils.DataSlot(0, 8, false, Utils.Type.N),
+        Utils.DataSlot(0, 4, Utils.Type.C),
+        Utils.DataSlot(0, 3, Utils.Type.D),
+        Utils.DataSlot(0, 1, Utils.Type.E),
+        Utils.DataSlot(0, 8, Utils.Type.N),
     )
 }

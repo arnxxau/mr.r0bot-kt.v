@@ -13,8 +13,8 @@ open class AluMODULE: Utils() {
         val output = mutableListOf<DataSlot>()
         val id = getID(data[0], DATA.ALU_TABLE, true)
         if (id != null) {
-            output.add(DataSlot(id.first, 3, false, Type.F))
-            output.add(DataSlot(id.second, 2, false, Type.OP))
+            output.add(DataSlot(id.first, 3, Type.F, false))
+            output.add(DataSlot(id.second, 2, Type.OP, false))
         }
         for ((idx, d) in data.withIndex()) {
             if (d.startsWith('R')) {
@@ -22,20 +22,20 @@ open class AluMODULE: Utils() {
                             else 0
                 output.add(
                     DataSlot(d.removePrefix("R").toInt(),
-                        3, false, selectRegister(idx + sum)))
+                        3, selectRegister(idx + sum), false))
             } else if (d.toIntOrNull(radix = 16) != null && isHex) {
                 output.add(DataSlot(d.toInt(radix = 16),
-                    16, false, Type.N, toHex = true))
+                    16, Type.N, false, toHex = true))
             } else if (d.toIntOrNull(radix = 10) != null) {
                 output.add(DataSlot(d.toInt(radix = 10),
-                    16, false, Type.N, toHex = true))
+                    16, Type.N, false, toHex = true))
             }
             else if (d.contains('(')) {
                 val dSplit = d.split(('('))
                 output.add(DataSlot(dSplit[0].toInt(),
-                    16, false, Type.N))
+                    16, Type.N, false))
                 output.add(DataSlot(dSplit[1].substring(1, 2).toInt(),
-                        3, false, Type.A))
+                        3, Type.A, false))
             }
         }
         return output

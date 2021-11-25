@@ -1,5 +1,5 @@
 fun main() {
-    println("Welcome to Mr R0bot v0.2.2 (kt.v)")
+    println("Welcome to Mr R0bot v0.2.3 (kt.v)")
     println(
         "       _______\n" +
                 "     _/       \\_\n" +

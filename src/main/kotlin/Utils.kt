@@ -116,8 +116,8 @@ open class Utils {
     data class DataSlot (
         var value: Int,
         var nBit: Int,
-        var discard: Boolean = false,
         var type: Type,
+        var discard: Boolean = true,
         var toHex: Boolean = false
     )
 
