@@ -4,12 +4,13 @@ open class AluMODULE: Utils() {
         val data = s.split(" ").map {
             if (it.contains("0x")
                 || it.contains("0X")) isHex = true
+
             it.removePrefix("0x")
                 .removePrefix("0X")
                 .removeSuffix(",")
-        }
+        }.toMutableList()
 
-        if (data[0] != "MOVEI") data[0].removeSuffix("I")
+        if (data[0] != "MOVEI") data[0] = data[0].removeSuffix("I")
         val output = mutableListOf<DataSlot>()
         val id = getID(data[0], DATA.ALU_TABLE, true)
         if (id != null) {
