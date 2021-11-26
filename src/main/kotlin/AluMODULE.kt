@@ -72,7 +72,7 @@ open class AluMODULE: Utils() {
         dataSlots[7].value = if (dataSlots[6].discard) 0
                         else 1
         //In/Alu logic
-        if (dataSlots[6].value != 0 && parsedSlots[0].value != 9) {
+        if (!dataSlots[6].discard && parsedSlots[0].value != 9) {
             dataSlots[5].value = if (parsedSlots[0].value == 8) 1
             else 0
             dataSlots[5].discard = false
