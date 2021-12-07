@@ -1,5 +1,5 @@
 fun main() {
-    println("Welcome to Mr R0bot v0.2.5 (kt.v)")
+    println("Welcome to Mr R0bot v0.2.6 (kt.v)")
     println(
         "       _______\n" +
                 "     _/       \\_\n" +
@@ -70,7 +70,7 @@ fun main() {
                     "4" -> {
                         input = readLine()!!
                         do {
-                            SisaMODULE().printSisaPhrase(input)
+                            HarvardMODULE().printHarvardPhrase(input)
                             input = readLine()!!
                         } while (input != "q")
                     }

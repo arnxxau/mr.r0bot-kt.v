@@ -23,7 +23,7 @@ object DATA {
         arrayOf("SHL")
     )
 
-    val SISA_LOGIC_MAP: Map<Pair<Int, Int>, String> = mapOf(
+    val HARVARD_LOGIC_MAP: Map<Pair<Int, Int>, String> = mapOf(
         Pair(0, 0) to "000001x10000xx0xxx00",
         Pair(0, 1) to "000001x10001xx0xxx00",
         Pair(0, 2) to "000001x0000000110001",
@@ -40,6 +40,7 @@ object DATA {
         Pair(1, 10) to "000010xxxxxxxxxxxxxx"
     )
 
+
     val ALU_CONSTRUCTOR: Array<Utils.DataSlot> = arrayOf(
         Utils.DataSlot(0, 3, Utils.Type.A),
         Utils.DataSlot(0, 3, Utils.Type.B),
@@ -52,7 +53,7 @@ object DATA {
         Utils.DataSlot(0, 16, Utils.Type.N, toHex = true)
     )
 
-    val SISA_CONSTRUCTOR: Array<Utils.DataSlot> = arrayOf(
+    val HARVARD_CONSTRUCTOR: Array<Utils.DataSlot> = arrayOf(
         Utils.DataSlot(0, 3, Utils.Type.A), // REG@A value
         Utils.DataSlot(0, 3, Utils.Type.B), // REG@B value
         Utils.DataSlot(0, 1, Utils.Type.RbN), // 1 if 'N' is used

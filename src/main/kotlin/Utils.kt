@@ -3,7 +3,7 @@ import kotlin.math.*
 open class Utils {
 
     // Selects a range of bits and returns its unsigned decimal representation
-    fun String.selectBit(startIndex: Int, endIndex: Int): Int? {
+    fun String.selectBits(startIndex: Int, endIndex: Int): Int? {
         return this.substring(this.length - startIndex - 1,
             this.length - endIndex).toIntOrNull(radix = 2)
     }
@@ -54,7 +54,8 @@ open class Utils {
         ).replace(" ".toRegex(), "0")
     }
 
-    open fun printTable(dataArray: MutableList<String>, aluCommand: Array<DataSlot>) {
+    // Prints the control phrase in an ascii table format
+    fun printTable(dataArray: MutableList<String>, aluCommand: Array<DataSlot>) {
         val table = AsciiTable()
         val stringArray = mutableListOf<String>()
         table.addRule()
@@ -77,6 +78,7 @@ open class Utils {
         println(table.render())
     }
 
+    // Checks if a REG has been already parsed
     fun verifyParse(idx: Int, input: MutableList<DataSlot>): Boolean {
         for (data in input) {
             if (data.type == selectRegister(idx)) return true
@@ -84,6 +86,7 @@ open class Utils {
         return false
     }
 
+    // Encrypts data from DataSlot to binary format (machine language)
     fun encryptAssembly(construct: Array<DataSlot>): String {
         var output = ""
         for (slot in construct) {
@@ -92,16 +95,17 @@ open class Utils {
         return output
     }
 
-    fun getID(s: String, toSearch: Array<Array<String>>, exact: Boolean): Pair<Int, Int>? {
+    // Returns a pair representing the row and column of the inputted array of arrays
+    fun getID(s: String, toSearch: Array<Array<String>>): Pair<Int, Int>? {
         for (i in toSearch.indices){
             for (j in toSearch[i].indices) {
-                if (s.startsWith(toSearch[i][j]) && !exact) return Pair(i, j)
                 if (s == toSearch[i][j]) return Pair(i, j)
             }
         }
         return null
     }
 
+    // Returns the binary chain combining all the inputted dataSlots
     fun generateBinaryChain(slots: Array<DataSlot>): String {
         var binChain = ""
         val discard = 0
